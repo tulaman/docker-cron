@@ -1,8 +1,2 @@
-*/5 * * * * curl -s https://sea-turtle-app-zevpx.ondigitalocean.app/api/send-follow-ups -H "x-api-key: your-secure-api-key-here" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
-1 * * * * curl -s https://sea-turtle-app-zevpx.ondigitalocean.app/api/summarize-profiles -H "x-api-key: your-secure-api-key-here" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
-10 12 * * * curl -s "https://sea-turtle-app-zevpx.ondigitalocean.app/api/send-forecasts?type=weekly&userIds=1,3&force=true" -H "x-api-key: your-secure-api-key-here" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
-50 13 * * 1 curl -s "https://sea-turtle-app-zevpx.ondigitalocean.app/api/send-forecasts?type=numerology_monthly&userIds=1,3&force=true" -H "x-api-key: your-secure-api-key-here" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
-10 15 * * * curl -s "https://sea-turtle-app-zevpx.ondigitalocean.app/api/send-forecasts?type=fortune_cookie&userIds=1,3&force=true" -H "x-api-key: your-secure-api-key-here" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
-11 10 * * * curl -s "https://sea-turtle-app-zevpx.ondigitalocean.app/api/send-forecasts?type=preforecast&userIds=1,3&force=true" -H "x-api-key: your-secure-api-key-here" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
 
 # An empty line is required at the end of this file for a valid cron file.
