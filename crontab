@@ -42,3 +42,8 @@ TZ=Europe/Moscow
 # Начисление премиальных дней за приглашённых пользователей
 # Проверка и отправка каждый день в 09:00 ET
 0 9 * * * curl -s -H "x-api-key: Ghbdtn6060" "https://diana-may-app-tnfdb.ondigitalocean.app/api/process-affiliate-rewards"
+
+# ================== DEFERRED REPLIES ==================
+# Автоматические ответы на сообщения, поступившие после достижения суточного лимита
+# Проверка каждые 10 минут
+*/15 * * * * curl -s -H "x-api-key: Ghbdtn6060" "https://diana-may-app-tnfdb.ondigitalocean.app/api/process-deferred-replies"
