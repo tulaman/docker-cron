@@ -1,3 +1,51 @@
-11 * * * * curl -s https://skylar-may-app-gho2d.ondigitalocean.app/api/send-follow-ups -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+TZ=America/New_York
+
+21 * * * * curl -s https://skylar-may-app-gho2d.ondigitalocean.app/api/send-follow-ups -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+1 * * * * curl -s https://skylar-may-app-gho2d.ondigitalocean.app/api/summarize-profiles -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+
+# ================== WEEKLY FORECAST ==================
+# Еженедельный прогноз (Weekly)
+# Отправка каждый понедельник в 7:00 ET
+0 7 * * 1 curl -s "https://skylar-may-app-gho2d.ondigitalocean.app/api/send-forecasts?type=weekly" -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+
+# ================== NUMEROLOGY MONTHLY ==================
+# Ежемесячный нумерологический прогноз (Numerology Monthly)
+# Отправка первого числа каждого месяца в 8:00 ET, 
+# но если первое число - понедельник, то отправка на следующий день (вторник)
+
+# Часть 1: Отправка первого числа, если это НЕ понедельник
+0 8 1 * * [ "$(date '+\%u')" != "1" ] && curl -s "https://skylar-may-app-gho2d.ondigitalocean.app/api/send-forecasts?type=numerology_monthly" -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+
+# Часть 2: Отправка второго числа, если первое было понедельником
+0 8 2 * * [ "$(date -d 'yesterday' '+\%d \%u')" = "01 1" ] && curl -s "https://skylar-may-app-gho2d.ondigitalocean.app/api/send-forecasts?type=numerology_monthly" -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+
+# ================== FORTUNE COOKIE ==================
+# Печенье с предсказанием (Fortune Cookie) 
+# Отправка каждый второй четверг месяца в 14:00 ET
+# Данное выражение выбирает диапазон дней 8-14 месяца и проверяет, является ли день четвергом
+0 14 8-14 * 4 [ "$(date '+\%u')" = "4" ] && curl -s "https://skylar-may-app-gho2d.ondigitalocean.app/api/send-forecasts?type=fortune_cookie" -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+
+# ================== PRE-FORECAST CHECK-IN ==================
+# Предварительное сообщение перед еженедельным прогнозом (Preforecast)
+# Отправка каждое воскресенье в 12:00 ET (за день до еженедельного прогноза)
+# Используется для уточнения актуальности тем и предпочтений пользователя
+0 12 * * 0 curl -s "https://skylar-may-app-gho2d.ondigitalocean.app/api/send-forecasts?type=preforecast" -H "x-api-key: Ghbdtn6060" -H "Content-Type: application/json" >/proc/1/fd/1 2>/proc/1/fd/2
+# An empty line is required at the end of this file for a valid cron file.
+
+# ================== SUBSCRIPTION EXPIRATION MONITORING ==================
+# Мониторинг истечения подписок с предупреждениями для premium пользователей
+# и автоматическим переводом trial пользователей в статус free
+# Выполняется каждый день в 10:00 ET
+0 10 * * * curl -s -H "x-api-key: Ghbdtn6060" "https://skylar-may-app-gho2d.ondigitalocean.app/api/monitor-expiration"
+
+# ================== AFFILIATE REWARDS ==================
+# Начисление премиальных дней за приглашённых пользователей
+# Проверка и отправка каждый день в 09:00 ET
+0 9 * * * curl -s -H "x-api-key: Ghbdtn6060" "https://skylar-may-app-gho2d.ondigitalocean.app/api/process-affiliate-rewards"
+
+# ================== DEFERRED REPLIES ==================
+# Автоматические ответы на сообщения, поступившие после достижения суточного лимита
+# Проверка каждые 10 минут
+*/15 * * * * curl -s -H "x-api-key: Ghbdtn6060" "https://skylar-may-app-gho2d.ondigitalocean.app/api/process-deferred-replies"
 
 # An empty line is required at the end of this file for a valid cron file.
